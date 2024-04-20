@@ -189,7 +189,7 @@ public class BlogManagementSystem {
                                     System.out.print("Enter blog title: ");
                                     String blogTitle = scanner.next();
                                     System.out.print("Enter blog content: ");
-                                    String blogContent = scanner.next();
+                                    String blogContent = scanner.nextLine();
                                     System.out.print("Enter category ID: ");
                                     int categoryId = scanner.nextInt();
                                     bms.addBlog(blogTitle, blogContent, loggedInUserId, categoryId);
@@ -201,7 +201,7 @@ public class BlogManagementSystem {
                                     System.out.print("Enter new blog title: ");
                                     String newTitle = scanner.next();
                                     System.out.print("Enter new blog content: ");
-                                    String newblogContent = scanner.next();
+                                    String newblogContent = scanner.nextLine();
                                     System.out.print("Enter new category ID: ");
                                     int newcategoryId = scanner.nextInt();
                                     bms.editBlog(blogId,newTitle,newblogContent,newcategoryId);
