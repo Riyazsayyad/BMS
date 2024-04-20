@@ -2,9 +2,7 @@ package com.company.controller;
 
 import com.company.entity.*;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +58,7 @@ public class BlogManagementSystem {
         blogs.put(blog.getId(), blog);
         // Store blog data in a text file
         try {
-            String fileName = "content/" + title + ".txt";
+            String fileName = "src/com/company/resources/content/" + title.replaceAll(" ","") + ".txt";
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
             writer.write(content);
             writer.close();
@@ -125,136 +123,141 @@ public class BlogManagementSystem {
 
     public static void main(String[] args) {
         // Main method to handle user interactions
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Scanner scanner = new Scanner(System.in);
         BlogManagementSystem bms = new BlogManagementSystem();
         int loggedInUserId = -1; // Initialize to an invalid user ID
 
+        try {
+            while (true) {
+                System.out.println("1. Login");
+                System.out.println("2. Register");
+                System.out.println("0. Exit");
+                System.out.print("Enter your choice: ");
+                int choice = scanner.nextInt();
 
-        while (true) {
-            System.out.println("1. Login");
-            System.out.println("2. Register");
-            System.out.println("0. Exit");
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        // Handle login
+                        System.out.println("Please Login to Continue");
+                        System.out.print("Email: ");
+                        String email = scanner.next();
+                        System.out.print("Password: ");
+                        String password = scanner.next();
+                        if (bms.loginUser(email, password)) {
+                            // Display main menu
+                            System.out.println("Welcome " + email);
+                            // Handle main menu options after login
+                            while (true) {
+                                System.out.println("\nMain Menu");
+                                System.out.println("1. Add category");
+                                System.out.println("2. Show categories");
+                                System.out.println("3. Display all blogs");
+                                System.out.println("4. Display my blogs");
+                                System.out.println("5. Add blog");
+                                System.out.println("6. Edit blog");
+                                System.out.println("7. Search blog");
+                                System.out.println("8. Delete blog");
+                                System.out.println("9. Logout");
+                                System.out.print("Enter your choice: ");
+                                int menuChoice = scanner.nextInt();
 
-            switch (choice) {
-                case 1:
-                    // Handle login
-                    System.out.println("Please Login to Continue");
-                    System.out.print("Email: ");
-                    String email = scanner.next();
-                    System.out.print("Password: ");
-                    String password = scanner.next();
-                    if (bms.loginUser(email, password)) {
-                        // Display main menu
-                        System.out.println("Welcome " + email);
-                        // Handle main menu options after login
-                        while (true) {
-                            System.out.println("\nMain Menu");
-                            System.out.println("1. Add category");
-                            System.out.println("2. Show categories");
-                            System.out.println("3. Display all blogs");
-                            System.out.println("4. Display my blogs");
-                            System.out.println("5. Add blog");
-                            System.out.println("6. Edit blog");
-                            System.out.println("7. Search blog");
-                            System.out.println("8. Delete blog");
-                            System.out.println("9. Logout");
-                            System.out.print("Enter your choice: ");
-                            int menuChoice = scanner.nextInt();
+                                switch (menuChoice) {
+                                    case 1:
+                                        // Add category
+                                        System.out.print("Enter category title: ");
+                                        String categoryTitle = scanner.next();
+                                        System.out.print("Enter category description: ");
+                                        String categoryDescription = scanner.next();
+                                        bms.addCategory(categoryTitle, categoryDescription);
+                                        break;
+                                    case 2:
+                                        // Show categories
+                                        bms.showCategories();
+                                        break;
+                                    case 3:
+                                        // Display all blogs
+                                        bms.displayAllBlogs();
+                                        break;
+                                    case 4:
+                                        // Display user's blogs
+                                        bms.displayUserBlogs(loggedInUserId);
+                                        break;
+                                    case 5:
+                                        // Add blog
+                                        System.out.print("Enter blog title: ");
+                                        String blogTitle = br.readLine().trim();
+                                        System.out.print("Enter blog content: ");
+                                        String blogContent = br.readLine().trim();
+                                        System.out.print("Enter category ID: ");
+                                        int categoryId = scanner.nextInt();
+                                        bms.addBlog(blogTitle, blogContent, loggedInUserId, categoryId);
+                                        break;
+                                    case 6:
+                                        // Edit blog
+                                        System.out.print("Enter blog id: ");
+                                        int blogId = scanner.nextInt();
+                                        System.out.print("Enter new blog title: ");
+                                        String newTitle = br.readLine().trim();
+                                        System.out.print("Enter new blog content: ");
+                                        String newblogContent = br.readLine().trim();
+                                        System.out.print("Enter new category ID: ");
+                                        int newcategoryId = scanner.nextInt();
+                                        bms.editBlog(blogId, newTitle, newblogContent, newcategoryId);
+                                        break;
+                                    case 7:
+                                        // Search blog
+                                        System.out.print("Enter new category ID: ");
+                                        String searchText = scanner.next();
+                                        // Search blog functionality
+                                        bms.searchBlog(searchText);
+                                        break;
+                                    case 8:
+                                        // Delete blog
+                                        // Delete blog functionality
+                                        System.out.print("Enter blog ID of blog to be deleted: ");
+                                        int blogIddel = scanner.nextInt();
+                                        bms.deleteBlog(blogIddel);
+                                        break;
+                                    case 9:
+                                        // Logout
+                                        loggedInUserId = -1;
+                                        break;
+                                    default:
+                                        System.out.println("Invalid choice.");
+                                }
 
-                            switch (menuChoice) {
-                                case 1:
-                                    // Add category
-                                    System.out.print("Enter category title: ");
-                                    String categoryTitle = scanner.next();
-                                    System.out.print("Enter category description: ");
-                                    String categoryDescription = scanner.next();
-                                    bms.addCategory(categoryTitle, categoryDescription);
-                                    break;
-                                case 2:
-                                    // Show categories
-                                    bms.showCategories();
-                                    break;
-                                case 3:
-                                    // Display all blogs
-                                    bms.displayAllBlogs();
-                                    break;
-                                case 4:
-                                    // Display user's blogs
-                                    bms.displayUserBlogs(loggedInUserId);
-                                    break;
-                                case 5:
-                                    // Add blog
-                                    System.out.print("Enter blog title: ");
-                                    String blogTitle = scanner.next();
-                                    System.out.print("Enter blog content: ");
-                                    String blogContent = scanner.nextLine();
-                                    System.out.print("Enter category ID: ");
-                                    int categoryId = scanner.nextInt();
-                                    bms.addBlog(blogTitle, blogContent, loggedInUserId, categoryId);
-                                    break;
-                                case 6:
-                                    // Edit blog
-                                    System.out.print("Enter blog id: ");
-                                    int blogId = scanner.nextInt();
-                                    System.out.print("Enter new blog title: ");
-                                    String newTitle = scanner.next();
-                                    System.out.print("Enter new blog content: ");
-                                    String newblogContent = scanner.nextLine();
-                                    System.out.print("Enter new category ID: ");
-                                    int newcategoryId = scanner.nextInt();
-                                    bms.editBlog(blogId,newTitle,newblogContent,newcategoryId);
-                                    break;
-                                case 7:
-                                    // Search blog
-                                    System.out.print("Enter new category ID: ");
-                                    String searchText = scanner.next();
-                                    // Search blog functionality
-                                    bms.searchBlog(searchText);
-                                    break;
-                                case 8:
-                                    // Delete blog
-                                    // Delete blog functionality
-                                    System.out.print("Enter blog ID of blog to be deleted: ");
-                                    int blogIddel = scanner.nextInt();
-                                    bms.deleteBlog(blogIddel);
-                                    break;
-                                case 9:
-                                    // Logout
-                                    loggedInUserId = -1;
-                                    break;
-                                default:
-                                    System.out.println("Invalid choice.");
+                                if (menuChoice == 9) {
+                                    break; // Break out of the inner while loop and go back to the login menu
+                                }
                             }
-
-                            if (menuChoice == 9) {
-                                break; // Break out of the inner while loop and go back to the login menu
-                            }
+                        } else {
+                            System.out.println("Invalid email or password.");
                         }
-                    } else {
-                        System.out.println("Invalid email or password.");
-                    }
-                    break;
-                case 2:
-                    // Handle registration
-                    System.out.println("Please enter your details");
-                    System.out.print("Full Name: ");
-                    String fullName = scanner.next();
-                    System.out.print("Email: ");
-                    email = scanner.next();
-                    System.out.print("Password: ");
-                    password = scanner.next();
-                    System.out.print("Phone no: ");
-                    String phoneNo = scanner.next();
-                    bms.registerUser(fullName, email, password, phoneNo);
-                    break;
-                case 0:
-                    // Exit the application
-                    System.exit(0);
-                default:
-                    System.out.println("Invalid choice.");
+                        break;
+                    case 2:
+                        // Handle registration
+                        System.out.println("Please enter your details");
+                        System.out.print("Full Name: ");
+                        String fullName = scanner.next();
+                        System.out.print("Email: ");
+                        email = scanner.next();
+                        System.out.print("Password: ");
+                        password = scanner.next();
+                        System.out.print("Phone no: ");
+                        String phoneNo = scanner.next();
+                        bms.registerUser(fullName, email, password, phoneNo);
+                        break;
+                    case 0:
+                        // Exit the application
+                        System.exit(0);
+                    default:
+                        System.out.println("Invalid choice.");
+                }
             }
+        }catch (IOException e) {
+            System.out.println("Error reading input.");
+            e.printStackTrace();
         }
     }
 }
