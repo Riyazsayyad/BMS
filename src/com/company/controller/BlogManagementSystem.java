@@ -142,9 +142,9 @@ public class BlogManagementSystem {
                     // Handle login
                     System.out.println("Please Login to Continue");
                     System.out.print("Email: ");
-                    String email = scanner.next();
+                    String email = scanner.nextLine();
                     System.out.print("Password: ");
-                    String password = scanner.next();
+                    String password = scanner.nextLine();
                     if (bms.loginUser(email, password)) {
                         // Display main menu
                         System.out.println("Welcome " + email);
@@ -167,9 +167,9 @@ public class BlogManagementSystem {
                                 case 1:
                                     // Add category
                                     System.out.print("Enter category title: ");
-                                    String categoryTitle = scanner.next();
+                                    String categoryTitle = scanner.nextLine();
                                     System.out.print("Enter category description: ");
-                                    String categoryDescription = scanner.next();
+                                    String categoryDescription = scanner.nextLine();
                                     bms.addCategory(categoryTitle, categoryDescription);
                                     break;
                                 case 2:
@@ -187,9 +187,9 @@ public class BlogManagementSystem {
                                 case 5:
                                     // Add blog
                                     System.out.print("Enter blog title: ");
-                                    String blogTitle = scanner.next();
+                                    String blogTitle = scanner.nextLine();
                                     System.out.print("Enter blog content: ");
-                                    String blogContent = scanner.next();
+                                    String blogContent = scanner.nextLine();
                                     System.out.print("Enter category ID: ");
                                     int categoryId = scanner.nextInt();
                                     bms.addBlog(blogTitle, blogContent, loggedInUserId, categoryId);
@@ -199,9 +199,9 @@ public class BlogManagementSystem {
                                     System.out.print("Enter blog id: ");
                                     int blogId = scanner.nextInt();
                                     System.out.print("Enter new blog title: ");
-                                    String newTitle = scanner.next();
+                                    String newTitle = scanner.nextLine();
                                     System.out.print("Enter new blog content: ");
-                                    String newblogContent = scanner.next();
+                                    String newblogContent = scanner.nextLine();
                                     System.out.print("Enter new category ID: ");
                                     int newcategoryId = scanner.nextInt();
                                     bms.editBlog(blogId,newTitle,newblogContent,newcategoryId);
@@ -209,7 +209,7 @@ public class BlogManagementSystem {
                                 case 7:
                                     // Search blog
                                     System.out.print("Enter new category ID: ");
-                                    String searchText = scanner.next();
+                                    String searchText = scanner.nextLine();
                                     // Search blog functionality
                                     bms.searchBlog(searchText);
                                     break;
@@ -240,13 +240,13 @@ public class BlogManagementSystem {
                     // Handle registration
                     System.out.println("Please enter your details");
                     System.out.print("Full Name: ");
-                    String fullName = scanner.next();
+                    String fullName = scanner.nextLine();
                     System.out.print("Email: ");
-                    email = scanner.next();
+                    email = scanner.nextLine();
                     System.out.print("Password: ");
-                    password = scanner.next();
+                    password = scanner.nextLine();
                     System.out.print("Phone no: ");
-                    String phoneNo = scanner.next();
+                    String phoneNo = scanner.nextLine();
                     bms.registerUser(fullName, email, password, phoneNo);
                     break;
                 case 0:
