@@ -127,6 +127,8 @@ public class BlogManagementSystem {
         // Main method to handle user interactions
         Scanner scanner = new Scanner(System.in);
         BlogManagementSystem bms = new BlogManagementSystem();
+        int loggedInUserId = -1; // Initialize to an invalid user ID
+
 
         while (true) {
             System.out.println("1. Login");
@@ -146,7 +148,90 @@ public class BlogManagementSystem {
                     if (bms.loginUser(email, password)) {
                         // Display main menu
                         System.out.println("Welcome " + email);
-                        // Handle main menu options
+                        // Handle main menu options after login
+                        while (true) {
+                            System.out.println("\nMain Menu");
+                            System.out.println("1. Add category");
+                            System.out.println("2. Show categories");
+                            System.out.println("3. Display all blogs");
+                            System.out.println("4. Display my blogs");
+                            System.out.println("5. Add blog");
+                            System.out.println("6. Edit blog");
+                            System.out.println("7. Search blog");
+                            System.out.println("8. Delete blog");
+                            System.out.println("9. Logout");
+                            System.out.print("Enter your choice: ");
+                            int menuChoice = scanner.nextInt();
+
+                            switch (menuChoice) {
+                                case 1:
+                                    // Add category
+                                    System.out.print("Enter category title: ");
+                                    String categoryTitle = scanner.next();
+                                    System.out.print("Enter category description: ");
+                                    String categoryDescription = scanner.next();
+                                    bms.addCategory(categoryTitle, categoryDescription);
+                                    break;
+                                case 2:
+                                    // Show categories
+                                    bms.showCategories();
+                                    break;
+                                case 3:
+                                    // Display all blogs
+                                    bms.displayAllBlogs();
+                                    break;
+                                case 4:
+                                    // Display user's blogs
+                                    bms.displayUserBlogs(loggedInUserId);
+                                    break;
+                                case 5:
+                                    // Add blog
+                                    System.out.print("Enter blog title: ");
+                                    String blogTitle = scanner.next();
+                                    System.out.print("Enter blog content: ");
+                                    String blogContent = scanner.next();
+                                    System.out.print("Enter category ID: ");
+                                    int categoryId = scanner.nextInt();
+                                    bms.addBlog(blogTitle, blogContent, loggedInUserId, categoryId);
+                                    break;
+                                case 6:
+                                    // Edit blog
+                                    System.out.print("Enter blog id: ");
+                                    int blogId = scanner.nextInt();
+                                    System.out.print("Enter new blog title: ");
+                                    String newTitle = scanner.next();
+                                    System.out.print("Enter new blog content: ");
+                                    String newblogContent = scanner.next();
+                                    System.out.print("Enter new category ID: ");
+                                    int newcategoryId = scanner.nextInt();
+                                    bms.editBlog(blogId,newTitle,newblogContent,newcategoryId);
+                                    break;
+                                case 7:
+                                    // Search blog
+                                    System.out.print("Enter new category ID: ");
+                                    String searchText = scanner.next();
+                                    // Search blog functionality
+                                    bms.searchBlog(searchText);
+                                    break;
+                                case 8:
+                                    // Delete blog
+                                    // Delete blog functionality
+                                    System.out.print("Enter blog ID of blog to be deleted: ");
+                                    int blogIddel = scanner.nextInt();
+                                    bms.deleteBlog(blogIddel);
+                                    break;
+                                case 9:
+                                    // Logout
+                                    loggedInUserId = -1;
+                                    break;
+                                default:
+                                    System.out.println("Invalid choice.");
+                            }
+
+                            if (menuChoice == 9) {
+                                break; // Break out of the inner while loop and go back to the login menu
+                            }
+                        }
                     } else {
                         System.out.println("Invalid email or password.");
                     }
